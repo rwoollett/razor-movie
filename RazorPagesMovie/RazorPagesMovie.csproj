@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>aspnet-RazorPagesMovie-344DE8BC-5298-4242-A5D8-87AD1086CCE7</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
