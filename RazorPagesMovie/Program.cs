@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using RazorPagesMovie.Models;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
+using WebOptimizer.Sass;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,10 +14,22 @@ builder.Services.AddRazorPages();
 if (builder.Environment.IsDevelopment())
 {
   builder.Services.AddDbContext<RazorPagesMovieContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("RazorPagesMovieContext")));
+              options.UseSqlite(builder.Configuration.GetConnectionString("RazorPagesMovieContext")));
+  builder.Services.AddWebOptimizer(pipeline =>
+                {
+                    var options = new WebOptimazerScssOptions();
+                    options.MinifyCss = false;
+                    pipeline.CompileScssFiles(options);
+                });
+
 } else {
   builder.Services.AddDbContext<RazorPagesMovieContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ProductionMovieContext")));
+              options.UseSqlServer(builder.Configuration.GetConnectionString("ProductionMovieContext")));
+  builder.Services.AddWebOptimizer(pipeline =>
+                  {
+                      pipeline.CompileScssFiles();
+                      pipeline.MinifyJsFiles();
+                  });
 }
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -56,6 +69,7 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.SlidingExpiration = true;
 });
 
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -63,9 +77,11 @@ using (var scope = app.Services.CreateScope())
   var services = scope.ServiceProvider;
 
   SeedData.Initialize(services);
+  
 }
 
 // Configure the HTTP request pipeline.
+
 if (app.Environment.IsDevelopment()) {
    //app.UseM.UseMigrationsEndPoint();
 }
@@ -86,6 +102,8 @@ app.UseRequestLocalization(new RequestLocalizationOptions{
   SupportedUICultures=supportedCultures
 });
 app.UseHttpsRedirection();
+
+app.UseWebOptimizer();
 app.UseStaticFiles();
 
 app.UseRouting();
