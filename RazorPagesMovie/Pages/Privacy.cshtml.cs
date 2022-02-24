@@ -12,8 +12,10 @@ public class PrivacyModel : PageModel
         _logger = logger;
     }
 
+    public string? Msg { get; set; }
     public void OnGet()
     {
+      Msg = "Use this page to detail your site's privacy policy.";
     }
 }
 
