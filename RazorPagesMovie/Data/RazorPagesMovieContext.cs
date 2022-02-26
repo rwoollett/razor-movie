@@ -15,4 +15,5 @@ using RazorPagesMovie.Models;
         }
 
         public DbSet<RazorPagesMovie.Models.Movie> Movie { get; set; }
+        public DbSet<RazorPagesMovie.Models.Car> Car { get; set; }
     }

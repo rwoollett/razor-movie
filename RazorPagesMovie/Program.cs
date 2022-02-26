@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using RazorPagesMovie.Models;
+using RazorPagesMovie.Services;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 using WebOptimizer.Sass;
@@ -9,7 +10,7 @@ using WebOptimizer.Sass;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorPages();
+//builder.Services.AddRazorPages();
 
 if (builder.Environment.IsDevelopment())
 {
@@ -69,6 +70,8 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.SlidingExpiration = true;
 });
 
+builder.Services.AddMemoryCache();
+builder.Services.AddTransient<ICarService, CarService>();
 
 var app = builder.Build();
 
