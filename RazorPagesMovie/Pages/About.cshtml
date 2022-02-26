@@ -1,4 +1,4 @@
-@page
+@page "{handler?}"
 @model AboutModel
 @{
     ViewData["Title"] = "About";
@@ -6,6 +6,18 @@
 
 <h1>About</h1>
 <p>@Model.Msg</p>
+
+<h2>Ajax</h2>
+<p><button class="btn btn-primary" id="load">Load</button></p>
+<div id="grid"></div>
+
 @section Scripts {
+    <script>
+        $(function () {
+            $('#load').on('click', function () {
+                $('#grid').load('/about/carpartial');
+            });
+        });
+    </script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
