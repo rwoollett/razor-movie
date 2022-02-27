@@ -12,7 +12,7 @@ namespace RazorPagesMovie.Models
 
     [Display(Name = "Release Date")]
     [DataType(DataType.Date)]
-    public DateTime ReleaseDate { get; set; }
+    public DateTime ReleaseDate { get; set; } = DateTime.Now;
 
     [RegularExpression(@"^[A-Z]+[a-zA-Z\s]*$")]
     [Required]

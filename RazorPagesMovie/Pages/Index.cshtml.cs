@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using RazorPagesMovie.Models;
 
 namespace RazorPagesMovie.Pages;
 
@@ -12,8 +13,23 @@ public class IndexModel : PageModel
         _logger = logger;
     }
 
+    [BindProperty]
+    public Movie Movie { get; set; } = new Movie();
+
     public void OnGet()
     {
+      Movie = new Movie();
+    }
 
+    public void OnPostRawFormData() 
+    {
+      Console.WriteLine("Raw ");
+      Console.WriteLine(Movie.Title);
+
+    }
+    public void OnPostIndividualFields(Movie movie) 
+    {
+      Console.WriteLine("Hey ");
+      Console.WriteLine(movie.Title);
     }
 }
