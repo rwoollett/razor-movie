@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
-using RazorPagesMovie.Models;
-using RazorPagesMovie.Services;
+using RazorPages.Models;
+using RazorPages.Services;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 using WebOptimizer.Sass;

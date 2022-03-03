@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using RazorPagesMovie.Services;
-using RazorPagesMovie.Models;
+using RazorPages.Services;
+using RazorPages.Models;
 
-namespace RazorPagesMovie.Pages;
+namespace RazorPages.Pages;
 
 public class AboutModel : PageModel
 {

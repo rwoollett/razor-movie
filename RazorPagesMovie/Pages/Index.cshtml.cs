@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using RazorPagesMovie.Models;
+using RazorPages.Models;
 
-namespace RazorPagesMovie.Pages;
+namespace RazorPages.Pages;
 
 public class IndexModel : PageModel
 {

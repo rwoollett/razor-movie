@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace RazorPagesMovie.Migrations
+namespace RazorPages.Migrations
 {
     public partial class Car : Migration
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using RazorPagesMovie.Models;
+using RazorPages.Models;
 
     public class MovieContext : IdentityDbContext
     {
@@ -14,6 +14,6 @@ using RazorPagesMovie.Models;
         {
         }
 
-        public DbSet<RazorPagesMovie.Models.Movie> Movie { get; set; }
-        public DbSet<RazorPagesMovie.Models.Car> Car { get; set; }
+        public DbSet<RazorPages.Models.Movie> Movie { get; set; }
+        public DbSet<RazorPages.Models.Car> Car { get; set; }
     }

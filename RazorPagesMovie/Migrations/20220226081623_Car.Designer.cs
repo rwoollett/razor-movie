@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace RazorPagesMovie.Migrations
+namespace RazorPages.Migrations
 {
     [DbContext(typeof(MovieContext))]
     [Migration("20220226081623_Car")]

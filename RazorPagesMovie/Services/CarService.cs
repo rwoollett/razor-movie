@@ -1,9 +1,9 @@
-using RazorPagesMovie.Models;
+using RazorPages.Models;
 using Microsoft.Extensions.Caching.Memory;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace RazorPagesMovie.Services
+namespace RazorPages.Services
 {
   public interface ICarService
   {

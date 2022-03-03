@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace RazorPagesMovie.Migrations
+namespace RazorPages.Migrations
 {
     [DbContext(typeof(MovieContext))]
     partial class RazorPagesMovieContextModelSnapshot : ModelSnapshot
