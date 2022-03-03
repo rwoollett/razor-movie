@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace RazorPagesMovie.Migrations
 {
-    [DbContext(typeof(RazorPagesMovieContext))]
+    [DbContext(typeof(MovieContext))]
     partial class RazorPagesMovieContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

@@ -14,7 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 if (builder.Environment.IsDevelopment())
 {
-  builder.Services.AddDbContext<RazorPagesMovieContext>(options =>
+  builder.Services.AddDbContext<MovieContext>(options =>
               options.UseSqlite(builder.Configuration.GetConnectionString("RazorPagesMovieContext")));
   builder.Services.AddWebOptimizer(pipeline =>
                 {
@@ -24,7 +24,7 @@ if (builder.Environment.IsDevelopment())
                 });
 
 } else {
-  builder.Services.AddDbContext<RazorPagesMovieContext>(options =>
+  builder.Services.AddDbContext<MovieContext>(options =>
               options.UseSqlServer(builder.Configuration.GetConnectionString("ProductionMovieContext")));
   builder.Services.AddWebOptimizer(pipeline =>
                   {
@@ -34,7 +34,7 @@ if (builder.Environment.IsDevelopment())
 }
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<RazorPagesMovieContext>();
+    .AddEntityFrameworkStores<MovieContext>();
 
 builder.Services.AddRazorPages();
 

@@ -12,9 +12,9 @@ namespace RazorPagesMovie.Pages.Movies
 {
     public class DeleteModel : PageModel
     {
-        private readonly RazorPagesMovieContext _context;
+        private readonly MovieContext _context;
 
-        public DeleteModel(RazorPagesMovieContext context)
+        public DeleteModel(MovieContext context)
         {
             _context = context;
         }

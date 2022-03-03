@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RazorPagesMovie.Models;
 
-    public class RazorPagesMovieContext : IdentityDbContext
+    public class MovieContext : IdentityDbContext
     {
-        public RazorPagesMovieContext (DbContextOptions<RazorPagesMovieContext> options)
+        public MovieContext (DbContextOptions<MovieContext> options)
             : base(options)
         {
         }

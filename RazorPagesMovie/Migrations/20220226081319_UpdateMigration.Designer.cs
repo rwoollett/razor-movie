@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace RazorPagesMovie.Migrations
 {
-    [DbContext(typeof(RazorPagesMovieContext))]
+    [DbContext(typeof(MovieContext))]
     [Migration("20220226081319_UpdateMigration")]
     partial class UpdateMigration
     {
