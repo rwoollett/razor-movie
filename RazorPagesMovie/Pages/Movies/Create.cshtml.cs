@@ -7,16 +7,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RazorPages.Models;
+using RazorPages.Entity;
 
 namespace RazorPages.Pages.Movies
 {
     public class CreateModel : PageModel
     {
-        private readonly MovieContext _context;
+        private readonly IRepository<Movie> repository;
 
-        public CreateModel(MovieContext context)
+        public CreateModel(IRepository<Movie> repository)
         {
-            _context = context;
+            this.repository = repository;
         }
 
         public IActionResult OnGet()
@@ -34,10 +35,7 @@ namespace RazorPages.Pages.Movies
             {
                 return Page();
             }
-
-            _context.Movie.Add(Movie);
-            await _context.SaveChangesAsync();
-
+            await repository.CreateAsync(Movie);
             return RedirectToPage("./Index");
         }
     }

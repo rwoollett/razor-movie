@@ -1,16 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.DependencyInjection;
 using RazorPages.Models;
 using RazorPages.Services;
+using RazorPages.Entity;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 using WebOptimizer.Sass;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-//builder.Services.AddRazorPages();
 
 if (builder.Environment.IsDevelopment())
 {
@@ -72,6 +69,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 builder.Services.AddMemoryCache();
 builder.Services.AddTransient<ICarService, CarService>();
+builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
 
 var app = builder.Build();
 
