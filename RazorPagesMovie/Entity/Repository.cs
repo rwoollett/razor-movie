@@ -1,3 +1,7 @@
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace RazorPages.Entity
 {
@@ -16,6 +20,16 @@ namespace RazorPages.Entity
     
       context.Add(entity);
       await context.SaveChangesAsync();
+    }
+
+    public async Task<List<T>> ReadAllAsync() 
+    {
+      return await context.Set<T>().ToListAsync();
+    }
+
+    public async Task<List<T>> ReadAsync(IQueryable<T> query) 
+    {
+      return await query.ToListAsync();
     }
   }
 }

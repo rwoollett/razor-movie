@@ -8,16 +8,20 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RazorPages.Models;
+using RazorPages.Entity;
 
 namespace RazorPages.Pages.Movies
 {
     public class IndexModel : PageModel
     {
+        private readonly IRepository<Movie> repository;
         private readonly MovieContext _context;
 
-        public IndexModel(MovieContext context)
+        public IndexModel(MovieContext context,
+                          IRepository<Movie> repository)
         {
             _context = context;
+            this.repository = repository;
         }
 
         public IList<Movie> Movie { get;set; }
@@ -47,7 +51,7 @@ namespace RazorPages.Pages.Movies
             }
 
             Genres = new SelectList(await genreQuery.Distinct().ToListAsync());
-            Movie = await movies.ToListAsync();
+            Movie = await repository.ReadAsync(movies);
         }
     }
 }
