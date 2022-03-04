@@ -71,7 +71,7 @@ namespace RazorPages.Models
                     });
                 }
                 context.Movie.AddRange(listMovies);
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
         }
     }
