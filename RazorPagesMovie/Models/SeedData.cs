@@ -4,7 +4,7 @@ namespace RazorPages.Models
 {
     public static class SeedData
     {
-        public static void Initialize(IServiceProvider serviceProvider)
+        public static async void Initialize(IServiceProvider serviceProvider)
         {
             using (var context = new MovieContext(
                 serviceProvider.GetRequiredService<
@@ -58,6 +58,19 @@ namespace RazorPages.Models
                         Rating = "NA"
                     }
                 );
+
+                var listMovies = new List<Movie>();
+                for (int i = 0; i < 50; i++) {
+                  listMovies.Add(new Movie
+                    {
+                        Title = "My new movie " + i.ToString(),
+                        ReleaseDate = DateTime.Parse("1959-4-15"),
+                        Genre = "Western",
+                        Price = 2.99M,
+                        Rating = "NA"
+                    });
+                }
+                context.Movie.AddRange(listMovies);
                 context.SaveChanges();
             }
         }

@@ -31,5 +31,26 @@ namespace RazorPages.Entity
     {
       return await query.ToListAsync();
     }
+
+    public async Task<(List<T>, int)> ReadAllFilterAsync(int skip, int take) 
+    {
+      var all = context.Set<T>();
+      var relevant = await all.Skip(skip).Take(take).ToListAsync();
+      var total = all.Count();
+
+      (List<T>, int) result = (relevant, total);
+
+      return result;    
+    }
+
+    public async Task<(List<T>, int)> ReadPageAsync(IQueryable<T> query, int skip, int take) 
+    {
+      var relevant = await query.Skip(skip).Take(take).ToListAsync();
+      var total = query.Count();
+
+      (List<T>, int) result = (relevant, total);
+
+      return result;    
+    }
   }
 }

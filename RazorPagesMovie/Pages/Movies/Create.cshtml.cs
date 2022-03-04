@@ -36,7 +36,7 @@ namespace RazorPages.Pages.Movies
                 return Page();
             }
             await repository.CreateAsync(Movie);
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Index", new { id = 1 });
         }
     }
 }

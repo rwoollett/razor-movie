@@ -1,16 +1,18 @@
-@page 
+@page "{id:int?}"
 @model RazorPages.Pages.Movies.IndexModel
-
+@using RazorPages.Paging;
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Movies";
 }
 
 <h1>Movies</h1>
 
 <p>
     <a asp-page="Create">Create New</a>
+   <form method="post">
+      <input type="submit" value="Delete All" class="btn btn-danger" />
+   </form>
 </p>
-
 <form>
     <p>
       <select asp-for="MovieGenre" asp-items="Model.Genres">
@@ -21,29 +23,31 @@
     </p>
 </form>
 
+<div class="pagingDiv" page-model="Model.MovieList.pagingInfo" page-name="Index" page-classes-enabled="true" page-class="paging" page-class-selected="active"></div>
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Movie[0].Title)
+                @Html.DisplayNameFor(model => model.TitleMovie.Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Movie[0].ReleaseDate)
+                @Html.DisplayNameFor(model => model.TitleMovie.ReleaseDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Movie[0].Genre)
+                @Html.DisplayNameFor(model => model.TitleMovie.Genre)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Movie[0].Price)
+                @Html.DisplayNameFor(model => model.TitleMovie.Price)
             </th>
             <th>
-              @Html.DisplayNameFor(model => model.Movie[0].Rating)
+                @Html.DisplayNameFor(model => model.TitleMovie.Rating)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Movie) {
+@foreach (var item in Model.MovieList.movie) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
@@ -69,3 +73,5 @@
 }
     </tbody>
 </table>
+<div class="pagingDiv" page-model="Model.MovieList.pagingInfo" page-name="Index" page-classes-enabled="true" page-class="paging" page-class-selected="active"></div>
+ 
