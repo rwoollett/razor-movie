@@ -31,17 +31,22 @@ namespace RazorPages.Pages.Movies
         [BindProperty(SupportsGet = true)] 
         public string SearchString { get; set; }
         public SelectList Genres { get; set; }
+
         [BindProperty(SupportsGet = true)] 
         public string MovieGenre { get; set; }
 
-        public async Task OnGetAsync(int id)
+        [BindProperty(SupportsGet = true)] 
+        public int PageNumber { get; set; }
+
+        public async Task OnGetAsync()
         {
             MovieList = new MovieList();
+
             int pageSize = 3;
             PagingInfo pagingInfo = new PagingInfo();
-            pagingInfo.CurrentPage = id == 0 ? 1 : id;
+            pagingInfo.CurrentPage = PageNumber == 0 ? 1 : PageNumber;
             pagingInfo.ItemsPerPage = pageSize;
-            var skip = pageSize * (Convert.ToInt32(id) - 1);
+            var skip = pageSize * (Convert.ToInt32(PageNumber) - 1);
 
             IQueryable<string> genreQuery = from m in _context.Movie
                                     orderby m.Genre
@@ -71,7 +76,7 @@ namespace RazorPages.Pages.Movies
 
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        public async Task<IActionResult> OnPostAsync()
         {
           var movies = from m in _context.Movie
                          select m;

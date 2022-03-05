@@ -51,7 +51,7 @@ namespace RazorPages.Paging
           else if (PageOtherValues.Keys.Count != 0)
               tag.Attributes["href"] = urlHelper.Page(PageName, AddDictionaryToQueryString(i));
           else
-              tag.Attributes["href"] = urlHelper.Page(PageName, new { id = i });
+              tag.Attributes["href"] = urlHelper.Page(PageName, new { PageNumber = i });
 
           if (PageClassesEnabled)
           {
@@ -69,7 +69,7 @@ namespace RazorPages.Paging
     {
         //object routeValues = new RouteValueDictionary();
         var dict = new RouteValueDictionary();
-        dict.Add("id", i);
+        dict.Add("PageNumber", i);
         foreach (string key in PageOtherValues.Keys)
         {
             dict.Add(key, PageOtherValues[key]);
