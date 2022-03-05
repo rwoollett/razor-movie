@@ -80,9 +80,9 @@ namespace RazorPages.Pages.Movies
         {
           var movies = from m in _context.Movie
                          select m;
-            _context.Movie.RemoveRange(movies.ToList());
-            await _context.SaveChangesAsync();
-            return RedirectToPage("./Index");
+          _context.Movie.RemoveRange(movies.ToList());
+          await _context.SaveChangesAsync();
+          return RedirectToPage("./Index");
         }
 
     }

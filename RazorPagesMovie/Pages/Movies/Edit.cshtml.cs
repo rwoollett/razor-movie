@@ -1,4 +1,3 @@
-#nullable disable
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,32 +8,31 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RazorPages.Models;
+using RazorPages.Entity;
+
 
 namespace RazorPages.Pages.Movies
 {
     [Authorize]
     public class EditModel : PageModel
     {
-        private readonly MovieContext _context;
+        private readonly IRepository<Movie> repository;
 
-        public EditModel(MovieContext context)
+        public EditModel(IRepository<Movie> repository)
         {
-            _context = context;
+            this.repository = repository;
         }
 
         [BindProperty]
-        public Movie Movie { get; set; }
+        public Movie Movie { get; set; } = new Movie();
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
-            if (id == null)
+            try 
             {
-                return NotFound();
+              Movie = await repository.ReadAsync(id);
             }
-
-            Movie = await _context.Movie.FirstOrDefaultAsync(m => m.ID == id);
-
-            if (Movie == null)
+            catch (ArgumentException)
             {
                 return NotFound();
             }
@@ -49,16 +47,13 @@ namespace RazorPages.Pages.Movies
             {
                 return Page();
             }
-
-            _context.Attach(Movie).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await repository.UpdateAsync(Movie);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MovieExists(Movie.ID))
+                if (! await MovieExists(Movie.ID))
                 {
                     return NotFound();
                 }
@@ -68,12 +63,20 @@ namespace RazorPages.Pages.Movies
                 }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Index", new { PageNumber = 1 });
         }
 
-        private bool MovieExists(int id)
+        private async Task<bool> MovieExists(int id)
         {
-            return _context.Movie.Any(e => e.ID == id);
+            try 
+            {
+              Movie = await repository.ReadAsync(id);
+            }
+            catch (ArgumentException)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

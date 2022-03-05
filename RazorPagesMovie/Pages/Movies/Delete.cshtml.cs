@@ -7,53 +7,39 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using RazorPages.Models;
+using RazorPages.Entity;
 
 namespace RazorPages.Pages.Movies
 {
     public class DeleteModel : PageModel
     {
-        private readonly MovieContext _context;
+        private readonly IRepository<Movie> repository;
 
-        public DeleteModel(MovieContext context)
+        public DeleteModel(IRepository<Movie> repository)
         {
-            _context = context;
+          this.repository = repository;
         }
 
         [BindProperty]
         public Movie Movie { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            Movie = await _context.Movie.FirstOrDefaultAsync(m => m.ID == id);
-
-            if (Movie == null)
-            {
-                return NotFound();
-            }
-            return Page();
+          try 
+          {
+            Movie = await repository.ReadAsync(id);
+          }
+          catch (ArgumentException)
+          {
+              return NotFound();
+          }
+          return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        public async Task<IActionResult> OnPostAsync(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            Movie = await _context.Movie.FindAsync(id);
-
-            if (Movie != null)
-            {
-                _context.Movie.Remove(Movie);
-                await _context.SaveChangesAsync();
-            }
-
-            return RedirectToPage("./Index");
+          await repository.DeleteAsync(id);
+          return RedirectToPage("./Index", new { PageNumber = 1 });
         }
     }
 }
