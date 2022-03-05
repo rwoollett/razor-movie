@@ -9,7 +9,7 @@
 
 <p>
     <a asp-page="Create">Create New</a>
-   <form method="post">
+   <form asp-page-handler="DeleteAll" method="post">
       <input type="submit" value="Delete All" class="btn btn-danger" />
    </form>
 </p>

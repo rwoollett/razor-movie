@@ -76,7 +76,7 @@ namespace RazorPages.Pages.Movies
 
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostDeleteAllAsync()
         {
           var movies = from m in _context.Movie
                          select m;

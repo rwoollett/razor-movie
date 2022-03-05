@@ -7,30 +7,28 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using RazorPages.Models;
+using RazorPages.Entity;
 
 namespace RazorPages.Pages.Movies
 {
     public class DetailsModel : PageModel
     {
-        private readonly MovieContext _context;
+        private readonly IRepository<Movie> repository;
 
-        public DetailsModel(MovieContext context)
+        public DetailsModel(IRepository<Movie> repository)
         {
-            _context = context;
+          this.repository = repository;
         }
 
         public Movie Movie { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
-            if (id == null)
+            try 
             {
-                return NotFound();
+              Movie = await repository.ReadAsync(id);
             }
-
-            Movie = await _context.Movie.FirstOrDefaultAsync(m => m.ID == id);
-
-            if (Movie == null)
+            catch (ArgumentException)
             {
                 return NotFound();
             }
