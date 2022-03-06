@@ -10,19 +10,20 @@ using Microsoft.EntityFrameworkCore;
 using RazorPages.Models;
 using RazorPages.Entity;
 using RazorPages.Paging;
+using System.Linq.Expressions; 
 
 namespace RazorPages.Pages.Movies
 {
     public class IndexModel : PageModel
     {
         private readonly IRepository<Movie> repository;
-        private readonly MovieContext _context;
+        private readonly MovieContext context;
 
         public IndexModel(MovieContext context,
                           IRepository<Movie> repository)
         {
-            _context = context;
             this.repository = repository;
+            this.context = context;
         }
 
         public MovieList MovieList { get;set; }
@@ -48,40 +49,41 @@ namespace RazorPages.Pages.Movies
             pagingInfo.ItemsPerPage = pageSize;
             var skip = pageSize * (Convert.ToInt32(PageNumber) - 1);
 
-            IQueryable<string> genreQuery = from m in _context.Movie
-                                    orderby m.Genre
-                                    select m.Genre;
-
-            var movies = from m in _context.Movie
-                         select m;
-
+            var filterList = new List<Expression<Func<Movie, bool>>>();
+          
             if (!string.IsNullOrEmpty(SearchString))
             {
-              movies = movies.Where(s => s.Title.Contains(SearchString));
+              filterList.Add(s => s.Title.Contains(SearchString));
             }
 
             if (!string.IsNullOrEmpty(MovieGenre)) 
             {
-              movies = movies.Where(x => x.Genre == MovieGenre);
+              filterList.Add(x => x.Genre == MovieGenre);
             }
 
-            Genres = new SelectList(await genreQuery.Distinct().ToListAsync());
+            var query = repository.ReadAll(filterList);
             
-            var resultTuple = await repository.ReadPageAsync(movies, skip, pageSize);
+            var resultTuple = await repository.ReadPageAsync(query, skip, pageSize);
             pagingInfo.TotalItems = resultTuple.Item2;
             MovieList.movie = resultTuple.Item1;
             MovieList.pagingInfo = pagingInfo;
 
             TitleMovie = MovieList.movie.Count() > 0 ? MovieList.movie.First<Movie>() : new Movie();
+            
+            IQueryable<string> genreQuery = from m in context.Movie
+                                    orderby m.Genre
+                                    select m.Genre;
+            Genres = new SelectList(await genreQuery.Distinct().ToListAsync());
 
         }
 
+        // TODO: temporary delete all for seeding dev db
         public async Task<IActionResult> OnPostDeleteAllAsync()
         {
-          var movies = from m in _context.Movie
+          var movies = from m in context.Movie
                          select m;
-          _context.Movie.RemoveRange(movies.ToList());
-          await _context.SaveChangesAsync();
+          context.Movie.RemoveRange(movies.ToList());
+          await context.SaveChangesAsync();
           return RedirectToPage("./Index");
         }
 

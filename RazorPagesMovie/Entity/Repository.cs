@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 namespace RazorPages.Entity
 {
   public class Repository<T> : IRepository<T> where T : class{
+
     private MovieContext context;
 
     public Repository(MovieContext context)
@@ -30,6 +31,19 @@ namespace RazorPages.Entity
       (List<T>, int) result = (relevant, total);
 
       return result;    
+    }
+
+
+    public IQueryable<T> ReadAll(List<Expression<Func<T, bool>>>? filterList)
+    {
+      if (filterList == null || filterList.Count == 0)
+        return context.Set<T>();
+
+      IQueryable<T> entities = context.Set<T>();
+      foreach (var filter in filterList) {
+          entities = entities.Where(filter); 
+      }
+      return entities;
     }
 
     public async Task UpdateAsync(T entity)
@@ -61,5 +75,6 @@ namespace RazorPages.Entity
       context.Set<T>().Remove(entity);
       await context.SaveChangesAsync();
     }
+
   }
 }
