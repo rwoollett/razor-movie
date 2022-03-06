@@ -16,4 +16,5 @@ using RazorPages.Models;
 
         public DbSet<RazorPages.Models.Movie> Movie { get; set; }
         public DbSet<RazorPages.Models.Car> Car { get; set; }
+        public DbSet<RazorPages.Models.Tag> Tag { get; set; }
     }

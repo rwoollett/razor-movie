@@ -9,6 +9,6 @@ namespace RazorPages.Entity
     Task UpdateAsync(T entity);
 
     Task<T> ReadAsync(int id);
-    Task DeleteAsync(int id);
+    Task DeleteAsync(T entity);
   }
 }

@@ -12,7 +12,8 @@ var builder = WebApplication.CreateBuilder(args);
 if (builder.Environment.IsDevelopment())
 {
   builder.Services.AddDbContext<MovieContext>(options =>
-              options.UseSqlite(builder.Configuration.GetConnectionString("RazorPagesMovieContext")));
+              options.UseSqlite(builder.Configuration.GetConnectionString("RazorPagesMovieContext"))                 
+              );
   builder.Services.AddWebOptimizer(pipeline =>
                 {
                     var options = new WebOptimazerScssOptions();

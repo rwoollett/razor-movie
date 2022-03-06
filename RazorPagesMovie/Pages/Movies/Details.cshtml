@@ -41,6 +41,16 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Movie.Rating)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Movie.Tags)
+        </dt>
+        <dd class="col-sm-10">
+          @foreach (var item in Model.Movie.Tags) {
+            <p>
+                @Html.DisplayFor(modelItem => item.Name)
+            </p>
+          }
+        </dd>
     </dl>
 </div>
 <div>

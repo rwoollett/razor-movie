@@ -59,6 +59,7 @@ namespace RazorPages.Models
                     }
                 );
 
+
                 var listMovies = new List<Movie>();
                 for (int i = 0; i < 50; i++) {
                   listMovies.Add(new Movie
@@ -71,6 +72,17 @@ namespace RazorPages.Models
                     });
                 }
                 context.Movie.AddRange(listMovies);
+                await context.SaveChangesAsync();
+                var movie = context.Movie.First(m => m.Title.Equals("My new movie 1"));
+                for (int i = 0; i < 5; i++) {
+                  var tag = new Tag
+                    {
+                      Name = "My tag " + i.ToString(),
+                      Movie = movie
+                    };
+                  context.Tag.Add(tag);
+                  movie.Tags.Add(tag);
+                }
                 await context.SaveChangesAsync();
             }
         }

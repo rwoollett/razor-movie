@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace RazorPages.Migrations
 {
     [DbContext(typeof(MovieContext))]
-    partial class RazorPagesMovieContextModelSnapshot : ModelSnapshot
+    [Migration("20220305230144_new_tags")]
+    partial class new_tags
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.2");
@@ -284,7 +286,7 @@ namespace RazorPages.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("MovieID")
+                    b.Property<int>("MovieID")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
@@ -354,8 +356,9 @@ namespace RazorPages.Migrations
                 {
                     b.HasOne("RazorPages.Models.Movie", "Movie")
                         .WithMany("Tags")
+                        .HasForeignKey("MovieID")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .HasForeignKey("MovieID");
+                        .IsRequired();
 
                     b.Navigation("Movie");
                 });

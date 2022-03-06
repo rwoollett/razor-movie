@@ -1,9 +1,14 @@
+#nullable disable
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 namespace RazorPages.Models
 {
   public class Movie
   {
+    public Movie()
+    {
+      this.Tags = new HashSet<Tag>();
+    }
     public int ID { get; set; }
 
     [StringLength(60, MinimumLength = 3)]
@@ -28,5 +33,7 @@ namespace RazorPages.Models
     [StringLength(5)]
     [Required]
     public string Rating { get; set; } = string.Empty;
+
+    public ICollection<Tag> Tags { get; set; }
   }
 }

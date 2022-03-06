@@ -48,18 +48,17 @@ namespace RazorPages.Entity
       {
         throw new ArgumentException(nameof(entity));
       }
+
+      // TODO: Load the tags related to a given movie.
+      context.Entry(entity).Collection("Tags").Load();
       return entity;
     }
 
-    public async Task DeleteAsync(int id)
+    public async Task DeleteAsync(T entity)
     {
-      var entity = await context.Set<T>().FindAsync(id);
-      if (entity == null) 
-      {
-        throw new ArgumentException(nameof(entity));
-      }
+      if (entity == null)
+        throw new ArgumentNullException(nameof(entity));
       context.Set<T>().Remove(entity);
-
       await context.SaveChangesAsync();
     }
   }

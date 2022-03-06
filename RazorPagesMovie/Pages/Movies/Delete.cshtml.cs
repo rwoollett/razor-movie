@@ -14,10 +14,13 @@ namespace RazorPages.Pages.Movies
     public class DeleteModel : PageModel
     {
         private readonly IRepository<Movie> repository;
+        private readonly IRepository<Tag> tag_repository;
 
-        public DeleteModel(IRepository<Movie> repository)
+        public DeleteModel(IRepository<Movie> repository,
+        IRepository<Tag> tag_repository)
         {
           this.repository = repository;
+          this.tag_repository = tag_repository;
         }
 
         [BindProperty]
@@ -38,7 +41,19 @@ namespace RazorPages.Pages.Movies
 
         public async Task<IActionResult> OnPostAsync(int id)
         {
-          await repository.DeleteAsync(id);
+          try 
+          {
+            Movie = await repository.ReadAsync(id);
+          }
+          catch (ArgumentException)
+          {
+              return NotFound();
+          }
+          foreach (var t in Movie.Tags)
+          { 
+            await tag_repository.DeleteAsync(t);
+          }
+          await repository.DeleteAsync(Movie);
           return RedirectToPage("./Index", new { PageNumber = 1 });
         }
     }
