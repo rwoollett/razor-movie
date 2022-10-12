@@ -9,7 +9,7 @@ namespace RazorPages.Models{
     [StringLength(50, MinimumLength = 3)]
     [Required]    
     public string Name { get; set; } = string.Empty;
-
+    public int MovieID { get; set; }
     public Movie Movie { get; set; }
   }
 }

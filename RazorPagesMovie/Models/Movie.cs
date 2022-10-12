@@ -7,7 +7,7 @@ namespace RazorPages.Models
   {
     public Movie()
     {
-      this.Tags = new HashSet<Tag>();
+      this.Tags = new List<Tag>();
     }
     public int ID { get; set; }
 
@@ -34,6 +34,6 @@ namespace RazorPages.Models
     [Required]
     public string Rating { get; set; } = string.Empty;
 
-    public ICollection<Tag> Tags { get; set; }
+    public List<Tag> Tags { get; set; }
   }
 }

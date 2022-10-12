@@ -3,47 +3,65 @@
 @{
     ViewData["Title"] = "Edit";
 }
-
+<div class="container">
 <h1>Edit</h1>
 
 <h4>Movie</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Movie.ID" />
-            <div class="form-group">
-                <label asp-for="Movie.Title" class="control-label"></label>
-                <input asp-for="Movie.Title" class="form-control" />
-                <span asp-validation-for="Movie.Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Movie.ReleaseDate" class="control-label"></label>
-                <input asp-for="Movie.ReleaseDate" class="form-control" />
-                <span asp-validation-for="Movie.ReleaseDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Movie.Genre" class="control-label"></label>
-                <input asp-for="Movie.Genre" class="form-control" />
-                <span asp-validation-for="Movie.Genre" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Movie.Price" class="control-label"></label>
-                <input asp-for="Movie.Price" class="form-control" />
-                <span asp-validation-for="Movie.Price" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Movie.Rating" class="control-label"></label>
-                <input asp-for="Movie.Rating" class="form-control" />
-                <span asp-validation-for="Movie.Rating" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+<form method="post">
+  <div class="row">
+    <div class="col-md-12">
+      <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+      <input type="hidden" asp-for="Movie.ID" />
     </div>
-</div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="mb-3">
+          <label asp-for="Movie.Title" class="form-label"></label>
+          <input asp-for="Movie.Title" class="form-control" />
+          <span asp-validation-for="Movie.Title" class="text-danger"></span>
+      </div>
+      <div class="mb-3">
+          <label asp-for="Movie.ReleaseDate" class="form-label"></label>
+          <input asp-for="Movie.ReleaseDate" class="form-control" />
+          <span asp-validation-for="Movie.ReleaseDate" class="text-danger"></span>
+      </div>
+      <div class="mb-3">
+          <label asp-for="Movie.Genre" class="form-label"></label>
+          <input asp-for="Movie.Genre" class="form-control" />
+          <span asp-validation-for="Movie.Genre" class="text-danger"></span>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="mb-3">
+          <label asp-for="Movie.Price" class="form-label"></label>
+          <input asp-for="Movie.Price" class="form-control" />
+          <span asp-validation-for="Movie.Price" class="text-danger"></span>
+      </div>
+      <div class="mb-3">
+          <label asp-for="Movie.Rating" class="form-label"></label>
+          <input asp-for="Movie.Rating" class="form-control" />
+          <span asp-validation-for="Movie.Rating" class="text-danger"></span>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <hr/>
+      <h4>Tagging</h4>
+      <partial name="_TagPartial" model="Model" />
+
+      <div>
+        @{ //<@%= link_to_add_association 'Add Technology', form, :technologies  %>
+        }
+      </div>
+      <div class="d-grid gap-2 mb-3">
+        <input type="submit" value="Save" class="btn btn-primary" />
+      </div>
+    </div>
+  </div>
+</form>
 
 <div>
     <a asp-page="./Index">Back to List</a>
@@ -52,3 +70,4 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+</div>

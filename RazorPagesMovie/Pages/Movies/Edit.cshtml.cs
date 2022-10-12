@@ -13,7 +13,6 @@ using RazorPages.Entity;
 
 namespace RazorPages.Pages.Movies
 {
-    [Authorize]
     public class EditModel : PageModel
     {
         private readonly IRepository<Movie> repository;
