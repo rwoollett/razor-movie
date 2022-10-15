@@ -30,7 +30,8 @@ if (builder.Environment.IsDevelopment())
                       pipeline.MinifyJsFiles();
                   });
 }
-
+//builder.Services.AddDbContext<MovieContext>(options =>
+//    options.UseSqlite(connectionString));
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<MovieContext>();
 
