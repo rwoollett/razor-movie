@@ -23,7 +23,7 @@ if (builder.Environment.IsDevelopment())
 
 } else {
   builder.Services.AddDbContext<MovieContext>(options =>
-              options.UseSqlServer(builder.Configuration.GetConnectionString("RazorPagesMovieContext")));
+              options.UseSqlite(builder.Configuration.GetConnectionString("RazorPagesMovieContext")));
   builder.Services.AddWebOptimizer(pipeline =>
                   {
                       pipeline.CompileScssFiles();
