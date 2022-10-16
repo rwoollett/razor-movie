@@ -32,7 +32,10 @@ if (builder.Environment.IsDevelopment())
 }
 //builder.Services.AddDbContext<MovieContext>(options =>
 //    options.UseSqlite(connectionString));
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<IdentityUser>(options => 
+{  
+  options.SignIn.RequireConfirmedAccount = true;
+  })
     .AddEntityFrameworkStores<MovieContext>();
 
 builder.Services.AddRazorPages();
@@ -78,8 +81,13 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
   var services = scope.ServiceProvider;
-
+  // TODO for deploy nginx tests
+  var db = scope.ServiceProvider.GetRequiredService<MovieContext>();
+  db.Database.Migrate();
+  // End TODO nginx deploy
+  
   SeedData.Initialize(services);
+
   
 }
 
