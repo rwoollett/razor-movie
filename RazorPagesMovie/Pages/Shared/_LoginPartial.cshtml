@@ -1,7 +1,8 @@
 @using Microsoft.AspNetCore.Identity
+@using Amazon.Extensions.CognitoAuthentication
 
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<CognitoUser> SignInManager
+@inject UserManager<CognitoUser> UserManager
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))

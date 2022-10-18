@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 using RazorPages.Models;
 using RazorPages.Services;
 using RazorPages.Entity;
@@ -8,6 +7,9 @@ using System.Globalization;
 using WebOptimizer.Sass;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var UserPoolId = builder.Configuration["AWS:UserPoolId"];
+Console.WriteLine("AWS UserPoolId: "  + UserPoolId);
 
 if (builder.Environment.IsDevelopment())
 {
@@ -30,36 +32,11 @@ if (builder.Environment.IsDevelopment())
                       pipeline.MinifyJsFiles();
                   });
 }
-//builder.Services.AddDbContext<MovieContext>(options =>
-//    options.UseSqlite(connectionString));
-builder.Services.AddDefaultIdentity<IdentityUser>(options => 
-{  
-  options.SignIn.RequireConfirmedAccount = true;
-  })
-    .AddEntityFrameworkStores<MovieContext>();
+
+//Adds Amazon Cognito as Identity Provider
+builder.Services.AddCognitoIdentity();
 
 builder.Services.AddRazorPages();
-
-builder.Services.Configure<IdentityOptions>(options =>
-{
-    // Password settings.
-    options.Password.RequireDigit = true;
-    options.Password.RequireLowercase = true;
-    options.Password.RequireNonAlphanumeric = true;
-    options.Password.RequireUppercase = true;
-    options.Password.RequiredLength = 6;
-    options.Password.RequiredUniqueChars = 1;
-
-    // Lockout settings.
-    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-    options.Lockout.MaxFailedAccessAttempts = 5;
-    options.Lockout.AllowedForNewUsers = true;
-
-    // User settings.
-    options.User.AllowedUserNameCharacters =
-    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-    options.User.RequireUniqueEmail = false;
-});
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -91,8 +68,6 @@ using (var scope = app.Services.CreateScope())
   
 }
 
-// Configure the HTTP request pipeline.
-
 if (app.Environment.IsDevelopment()) {
    //app.UseM.UseMigrationsEndPoint();
 }
@@ -112,19 +87,13 @@ app.UseRequestLocalization(new RequestLocalizationOptions{
   SupportedCultures=supportedCultures,
   SupportedUICultures=supportedCultures
 });
-app.UseHttpsRedirection();
 
+app.UseHttpsRedirection();
 app.UseWebOptimizer();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapRazorPages();
-// app.UseEndpoints( endpoints => {
-//   endpoints.MapRazorPages();
-// });
 
 app.Run();
