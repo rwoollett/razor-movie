@@ -5,6 +5,7 @@ using RazorPages.Entity;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 using WebOptimizer.Sass;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +36,8 @@ if (builder.Environment.IsDevelopment())
 
 //Adds Amazon Cognito as Identity Provider
 builder.Services.AddCognitoIdentity();
+// builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+//     .AddEntityFrameworkStores<MovieContext>();
 
 builder.Services.AddRazorPages();
 
