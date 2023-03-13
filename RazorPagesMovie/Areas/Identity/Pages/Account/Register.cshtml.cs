@@ -26,7 +26,7 @@ namespace RazorPagesMovie.Areas.Identity.Pages.Account
   public class RegisterModel : PageModel
   {
     private readonly SignInManager<CognitoUser> _signInManager;
-    private readonly UserManager<CognitoUser> _userManager;
+    private readonly CognitoUserManager<CognitoUser> _userManager;
     private readonly ILogger<RegisterModel> _logger;
     private readonly CognitoUserPool _pool;
 
@@ -37,7 +37,7 @@ namespace RazorPagesMovie.Areas.Identity.Pages.Account
         ILogger<RegisterModel> logger,
         CognitoUserPool pool)
     {
-      _userManager = userManager;
+      _userManager = userManager as CognitoUserManager<CognitoUser>;
       _signInManager = signInManager;
       _logger = logger;
       _pool = pool;

@@ -11,22 +11,21 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
+using Amazon.AspNetCore.Identity.Cognito;
+using Amazon.Extensions.CognitoAuthentication;
 
 namespace RazorPagesMovie.Areas.Identity.Pages.Account
 {
     public class LoginWith2faModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly CognitoSignInManager<CognitoUser> _signInManager;
         private readonly ILogger<LoginWith2faModel> _logger;
 
         public LoginWith2faModel(
-            SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager,
+            SignInManager<CognitoUser> signInManager,
             ILogger<LoginWith2faModel> logger)
         {
-            _signInManager = signInManager;
-            _userManager = userManager;
+            _signInManager = signInManager as CognitoSignInManager<CognitoUser>;
             _logger = logger;
         }
 
@@ -108,22 +107,15 @@ namespace RazorPagesMovie.Areas.Identity.Pages.Account
 
             var result = await _signInManager.TwoFactorAuthenticatorSignInAsync(authenticatorCode, rememberMe, Input.RememberMachine);
 
-            var userId = await _userManager.GetUserIdAsync(user);
-
             if (result.Succeeded)
             {
-                _logger.LogInformation("User with ID '{UserId}' logged in with 2fa.", user.Id);
+                _logger.LogInformation("User with ID '{UserId}' logged in with 2fa.", user.UserID);
                 return LocalRedirect(returnUrl);
-            }
-            else if (result.IsLockedOut)
-            {
-                _logger.LogWarning("User with ID '{UserId}' account locked out.", user.Id);
-                return RedirectToPage("./Lockout");
             }
             else
             {
-                _logger.LogWarning("Invalid authenticator code entered for user with ID '{UserId}'.", user.Id);
-                ModelState.AddModelError(string.Empty, "Invalid authenticator code.");
+                _logger.LogWarning("Invalid 2FA code entered for user with ID '{UserId}'.", user.UserID);
+                ModelState.AddModelError(string.Empty, "Invalid 2FA code.");
                 return Page();
             }
         }
